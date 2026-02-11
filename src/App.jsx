@@ -18,7 +18,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ padding: 16, fontFamily: "system-ui" }}>
+    <div style={{ padding: 16, fontFamily: "system-ui", background: "#000" }}>
       <div style={{ opacity: 0.75, marginBottom: 12 }}>
         {insideTelegram ? `Inside Telegram: ${user?.first_name ?? "user"}` : "Browser preview (not Telegram)"}
       </div>
