@@ -18,6 +18,12 @@ export default function App() {
     webapp.showAlert?.("Hello from Mini App!");
   };
 
+  const onExpand = () => {
+    const webapp = tg();
+    if (!webapp) return alert("Browser preview");
+    webapp.expand?.();
+  };
+
   const onFullscreen = () => {
     const el = videoRef.current;
     if (!el) return;
@@ -52,8 +58,12 @@ export default function App() {
         />
       </div>
 
-      <button onClick={onFullscreen} style={{ padding: 12, borderRadius: 12, width: "100%", marginBottom: 12 }}>
+      <button onClick={onFullscreen} style={{ padding: 12, borderRadius: 12, width: "100%", marginBottom: 10 }}>
         На весь екран
+      </button>
+
+      <button onClick={onExpand} style={{ padding: 12, borderRadius: 12, width: "100%", marginBottom: 12 }}>
+        Розгорнути
       </button>
 
       <div style={{ fontSize: 18, fontWeight: 700 }}>{active.title}</div>
