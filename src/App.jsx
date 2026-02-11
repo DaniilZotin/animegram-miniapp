@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { initTg, tg } from "./lib/telegram";
 
 const mockVideos = [
@@ -10,11 +10,30 @@ export default function App() {
   const { insideTelegram, user } = useMemo(() => initTg(), []);
   const [activeId, setActiveId] = useState(mockVideos[0].id);
   const active = mockVideos.find(v => v.id === activeId);
+  const videoRef = useRef(null);
 
   const onPrimaryAction = () => {
     const webapp = tg();
     if (!webapp) return alert("Browser preview");
     webapp.showAlert?.("Hello from Mini App!");
+  };
+
+  const onFullscreen = () => {
+    const el = videoRef.current;
+    if (!el) return;
+
+    if (document.fullscreenElement) {
+      document.exitFullscreen?.();
+      return;
+    }
+
+    if (el.requestFullscreen) {
+      el.requestFullscreen();
+      return;
+    }
+
+    // iOS Safari fallback
+    el.webkitEnterFullscreen?.();
   };
 
   return (
@@ -24,8 +43,18 @@ export default function App() {
       </div>
 
       <div style={{ borderRadius: 12, overflow: "hidden", marginBottom: 12, background: "#000" }}>
-        <video src={active.url} controls playsInline style={{ width: "100%", display: "block" }} />
+        <video
+          ref={videoRef}
+          src={active.url}
+          controls
+          playsInline
+          style={{ width: "100%", display: "block" }}
+        />
       </div>
+
+      <button onClick={onFullscreen} style={{ padding: 12, borderRadius: 12, width: "100%", marginBottom: 12 }}>
+        На весь екран
+      </button>
 
       <div style={{ fontSize: 18, fontWeight: 700 }}>{active.title}</div>
       <div style={{ opacity: 0.7, marginBottom: 12 }}>{active.author}</div>
