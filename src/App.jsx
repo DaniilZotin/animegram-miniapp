@@ -24,6 +24,16 @@ export default function App() {
     webapp.expand?.();
   };
 
+  const onWebAppFullscreen = () => {
+    const webapp = tg();
+    if (!webapp) return alert("Browser preview");
+    if (typeof webapp.requestFullscreen === "function") {
+      webapp.requestFullscreen();
+      return;
+    }
+    webapp.showAlert?.("Fullscreen WebApp не підтримується на цій платформі.");
+  };
+
   const onFullscreen = () => {
     const el = videoRef.current;
     if (!el) return;
@@ -64,6 +74,10 @@ export default function App() {
 
       <button onClick={onExpand} style={{ padding: 12, borderRadius: 12, width: "100%", marginBottom: 12 }}>
         Розгорнути
+      </button>
+
+      <button onClick={onWebAppFullscreen} style={{ padding: 12, borderRadius: 12, width: "100%", marginBottom: 12 }}>
+        Спробувати fullscreen Mini App
       </button>
 
       <div style={{ fontSize: 18, fontWeight: 700 }}>{active.title}</div>
